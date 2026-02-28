@@ -1,0 +1,41 @@
+# ---------------------------------------------------------------------------
+# CONVENTIONAL COMMIT MESSAGE TEMPLATE
+# ---------------------------------------------------------------------------
+# Format: <type>(<scope>): <subject>
+#
+# Types:
+#   feat     - A new feature
+#   fix      - A bug fix
+#   docs     - Documentation only changes
+#   style    - Formatting, missing semicolons, etc. (no logic change)
+#   refactor - Code restructuring without feature or fix
+#   perf     - A code change that improves performance
+#   test     - Adding or correcting tests
+#   chore    - Build process, tooling, dependency updates
+#   ci       - CI/CD pipeline changes
+#   revert   - Reverts a previous commit
+#
+# Scope (optional): module, file, or area affected
+#   e.g.: auth, api, ui, db, config, deps
+#
+# Subject rules:
+#   - Use imperative mood: "add feature" not "added feature"
+#   - No capital first letter
+#   - No period at the end
+#   - Max 72 characters on the first line
+# ---------------------------------------------------------------------------
+
+<type>(<scope>): <subject>
+
+# ---------------------------------------------------------------------------
+# Body (optional — explain WHY this change is needed, not WHAT it does)
+# Wrap lines at 72 characters.
+# ---------------------------------------------------------------------------
+
+
+# ---------------------------------------------------------------------------
+# Footer (optional)
+# Reference issues: Closes #123, Refs #456
+# Breaking changes: BREAKING CHANGE: <description>
+# ---------------------------------------------------------------------------
+
