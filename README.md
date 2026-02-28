@@ -1,200 +1,70 @@
-# Project Name
+# Master Governance Setup
 
-> [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-> [![CI](https://github.com/saintlabs-droid/PROJECT_NAME/actions/workflows/ci.yml/badge.svg)](https://github.com/saintlabs-droid/PROJECT_NAME/actions)
-> [![Coverage](https://img.shields.io/badge/coverage-80%25-brightgreen)]()
-> [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg)](https://conventionalcommits.org)
+> A complete, reusable GitHub governance and workflow structure designed to enforce high-quality contributions, strict commit discipline, and standardized documentation across projects.
 
 ---
 
 ## Overview
 
-A concise 2–4 sentence description of what this project does, who it is for, and why it exists. Explain the core problem it solves and what makes it worth using.
+This repository provides a foundational governance framework for software engineering projects. When applied to a new or existing repository, it establishes clear guardrails for how code is written, reviewed, and merged. 
 
-> Example: **Project Name** is a lightweight REST API gateway that provides centralized authentication, rate limiting, and request routing for microservice architectures. It is designed for teams who need production-grade infrastructure without vendor lock-in.
-
----
-
-## Features
-
-- ✅ Feature one — brief description
-- ✅ Feature two — brief description
-- ✅ Feature three — brief description
-- ✅ Feature four — brief description
-- ✅ Feature five — brief description
+By enforcing the **[Conventional Commits](https://conventionalcommits.org/)** specification and providing robust templates for pull requests and issues, this framework ensures that the development lifecycle remains predictable, scalable, and fully documented.
 
 ---
 
-## Tech Stack
+## Governance Framework Components
 
-| Layer         | Technology           |
-|---------------|----------------------|
-| Language      | Python 3.11 / Node 20|
-| Framework     | FastAPI / Express.js |
-| Database      | PostgreSQL 15        |
-| Cache         | Redis 7              |
-| Auth          | JWT / OAuth 2.0      |
-| Containerization | Docker + Compose  |
-| CI/CD         | GitHub Actions       |
-| Testing       | Pytest / Jest        |
+This setup includes several key configuration files and templates. Below is a breakdown of what each file contains and its purpose in the governance lifecycle.
+
+### 1. Git Configuration & Hooks
+
+| File | Description |
+|------|-------------|
+| **`.gitmessage`** | The Conventional Commit message template. When configured (`git config commit.template .gitmessage`), it provides inline guidance in your editor for writing standardized commit messages (`feat`, `fix`, `chore`, etc.). |
+| **`.githooks/pre-commit`** | A shell-based git hook that intercepts commits to validate the message format against the Conventional Commits specification. It rejects non-compliant messages and ensures the subject line does not exceed 72 characters. |
+
+### 2. Core Rules & Standards
+
+| File | Description |
+|------|-------------|
+| **`.antigravity-rules.md`** | The master governance document. It strictly defines commit discipline (one logical change per commit), the branching strategy (`main`, `develop`, `feature/*`), PR approval standards, and rules for refactoring and testing. |
+| **`docs/STANDARDS.md`** | Technical documentation and code standards. This covers markdown structure rules, README formatting, docstring conventions (JSDoc/Python), code comment policies (explain *why*, not *what*), and general code style expectations. |
+| **`docs/FOLDER_STRUCTURE.md`** | An annotated blueprint detailing the recommended repository layout, including stack-specific examples (Node.js, Python, React) and naming conventions. |
+
+### 3. GitHub Integrations
+
+| File | Description |
+|------|-------------|
+| **`.github/pull_request_template.md`** | The default template applied when creating a new Pull Request. It requires authors to define the type of change, motivation, testing proof, and complete a pre-merge checklist. |
+| **`.github/ISSUE_TEMPLATE/feature_request.md`** | Structured template for proposing new features. Includes sections for problem motivation, proposed solution, and acceptance criteria. |
+| **`.github/ISSUE_TEMPLATE/bug_report.md`** | Structured template for reporting bugs. Requires minimum reproducible steps, expected vs. actual behaviour, environment specifics, and logs/screenshots. |
+
+### 4. Project Documentation
+
+| File | Description |
+|------|-------------|
+| **`README.md`** | This current document. Serves as the landing page explaining the repository's purpose and its layout. |
+| **`CONTRIBUTING.md`** | The complete developer onboarding guide. It provides step-by-step instructions on branching, committing, opening PRs, running tests, and reporting issues in accordance with the project's governance model. |
 
 ---
 
-## Installation
+## Getting Started: Applying to a New Project
 
-### Prerequisites
-
-- [Git](https://git-scm.com/) ≥ 2.40
-- [Node.js](https://nodejs.org/) ≥ 20 LTS **or** [Python](https://python.org/) ≥ 3.11
-- [Docker](https://docker.com/) ≥ 24 (optional, for containerized setup)
-
-### Steps
+To apply this governance framework to a new repository, copy the files from this directory to the root of your new project and run the following setup commands:
 
 ```bash
-# 1. Clone the repository
-git clone https://github.com/saintlabs-droid/PROJECT_NAME.git
-cd PROJECT_NAME
+# 1. Initialize git (if not already done)
+git init
 
-# 2. Install dependencies
-npm install          # Node.js
-# or
-pip install -r requirements.txt  # Python
+# 2. Configure the commit message template
+git config commit.template .gitmessage
 
-# 3. Configure environment variables
-cp .env.example .env
-# Edit .env with your values
-
-# 4. Start development server
-npm run dev
-# or
-python -m uvicorn app.main:app --reload
+# 3. Install the pre-commit hook to strictly enforce commit formats
+cp .githooks/pre-commit .git/hooks/pre-commit
+chmod +x .git/hooks/pre-commit
 ```
 
----
-
-## Usage
-
-### Basic Example
-
-```bash
-# Start the server
-npm run dev
-
-# Make a sample API request
-curl -X POST http://localhost:3000/api/v1/auth/login \
-  -H "Content-Type: application/json" \
-  -d '{"email": "user@example.com", "password": "secret"}'
-```
-
-### Response
-
-```json
-{
-  "token": "eyJhbGciOiJIUzI1NiIsInR...",
-  "expires_in": 3600
-}
-```
-
-> For full API documentation, visit [`docs/API.md`](docs/API.md) or the live Swagger UI at `http://localhost:3000/docs`.
-
----
-
-## Environment Variables
-
-Create a `.env` file at the repository root by copying `.env.example`:
-
-```bash
-cp .env.example .env
-```
-
-| Variable            | Required | Description                              | Default     |
-|---------------------|----------|------------------------------------------|-------------|
-| `PORT`              | Yes      | Port the server listens on               | `3000`      |
-| `DATABASE_URL`      | Yes      | PostgreSQL connection string             | —           |
-| `REDIS_URL`         | No       | Redis connection string for caching      | —           |
-| `JWT_SECRET`        | Yes      | Secret key for signing JWT tokens        | —           |
-| `JWT_EXPIRES_IN`    | No       | JWT token expiry duration                | `3600s`     |
-| `LOG_LEVEL`         | No       | Logging verbosity (`debug`, `info`, etc.)| `info`      |
-| `NODE_ENV`          | Yes      | Runtime environment                      | `development`|
-
-> ⚠️ **Never commit `.env` to version control.** It is listed in `.gitignore`.
-
----
-
-## Testing
-
-```bash
-# Run all tests
-npm test
-# or
-pytest
-
-# Run with coverage report
-npm run test:coverage
-# or
-pytest --cov=src --cov-report=term-missing
-
-# Run a specific test file
-npm test -- auth.test.js
-# or
-pytest tests/unit/test_auth.py -v
-```
-
-All tests follow the naming convention: `should <do something> when <condition>`.
-
----
-
-## Deployment
-
-### Docker (Recommended)
-
-```bash
-# Build and start all services
-docker compose up --build -d
-
-# View logs
-docker compose logs -f app
-
-# Stop services
-docker compose down
-```
-
-### Manual Production Build
-
-```bash
-# Build
-npm run build
-
-# Start production server
-NODE_ENV=production npm start
-```
-
-### CI/CD Pipeline
-
-Deployments are automated via GitHub Actions:
-
-- **`main`** → Production environment (auto-deploy on merge)
-- **`develop`** → Staging environment (auto-deploy on merge)
-
-See [`.github/workflows/`](.github/workflows/) for all pipeline configurations.
-
----
-
-## Contributing
-
-We welcome contributions! Please read our [Contributing Guidelines](CONTRIBUTING.md) before submitting any work.
-
-Key points:
-- Follow [Conventional Commits](https://conventionalcommits.org/)
-- One logical change per PR
-- All PRs require at least one reviewer approval
-- See `.antigravity-rules.md` for full governance rules
-
----
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
+Once installed, all contributors must follow the rules outlined in `.antigravity-rules.md` and `CONTRIBUTING.md`.
 
 ---
 
