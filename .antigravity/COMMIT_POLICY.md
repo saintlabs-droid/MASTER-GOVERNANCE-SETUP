@@ -16,6 +16,15 @@ Every commit must represent a **single, coherent, logical unit of change**. Do n
 <footer — Closes #issue, BREAKING CHANGE: description>
 ```
 
+### Common Scopes
+
+- `api`: Backend API changes
+- `ui`: Frontend component changes
+- `auth`: Authentication/Authorization logic
+- `db`: Database schema or migration changes
+- `deps`: Dependency updates
+- `config`: Configuration changes
+
 ### Allowed Types
 
 - `feat`: A new feature
